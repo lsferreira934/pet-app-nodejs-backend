@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const database = require('../infra/database/PostgressSQLAdapter');
 
+const rolesService = require('../service/rolesService');
+
 const signup = async (req, res) => {
     const { name, last_name, email, phone, password } = req.body
     const hasRole = req.$role;
@@ -19,11 +21,8 @@ const signup = async (req, res) => {
             { id: newUserId, name, last_name, email, phone, password: encryptingPassword }
         );
 
-        await database.query(
-            `INSERT INTO pet.user_roles (id, role_id, user_id) VALUES ($<id>, $<role_id>, $<user_id>)`,
-            { id: uuidv4(), role_id: hasRole[0].id, user_id: newUserId }
-        );
-
+        await rolesService.createUserRole(hasRole[0].id, newUserId);
+       
         return res.status(200).json({ message: "User was registered successfully." });
     } catch (error) {
         console.log({ error: error.message });
