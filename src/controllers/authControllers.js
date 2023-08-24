@@ -18,7 +18,7 @@ const signup = async (req, res) => {
 
 		const newUserId = await userService.createUser({ name, last_name, email, phone, password: encryptingPassword });
 
-		await rolesService.createUserRole(hasRole[0].id, newUserId);
+		await rolesService.createUserRole(hasRole[0].id, newUserId[0].id);
 
 		return res.status(200).json({ message: "User was registered successfully." });
 	} catch (error) {

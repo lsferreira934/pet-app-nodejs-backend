@@ -42,7 +42,7 @@ alter table pet.user_roles add constraint roles_role_id_fk foreign key (role_id)
 
 
 /* Criação da nova tabela || Constraint - tabela blacklist_token / tabela users */
-create table pet.blacklist_token(
+create table pet.blacklist_tokens(
 	id uuid primary key,
 	user_id uuid not null,
 	token text not null,
@@ -50,3 +50,9 @@ create table pet.blacklist_token(
 	updated_at timestamp default now() not null,
 	constraint toke_user_id_fk foreign key (user_id) references pet.users(id)
 )
+
+/* Adicionar valores na tabela roles*/
+INSERT INTO pet.roles
+    (id, "name", created_at, updated_at)
+VALUES ('6831c0c8-5673-4beb-a2a6-7c3adf40ef28', 'user', NOW(), NOW()),
+    ('cd34bec6-ceea-4439-b9e4-75dc39f2a1ff', 'admin',NOW(), NOW())

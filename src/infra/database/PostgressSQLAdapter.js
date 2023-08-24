@@ -11,4 +11,11 @@ const conection = {
 
 const db = pgp(conection);
 
+db.one('SELECT version()').then(data => {
+    console.log('Conexão bem-sucedida!');
+    console.log('Versão do banco de dados:', data.version);
+}).catch(error => {
+    console.error('Erro ao conectar ao banco de dados:', error);
+});
+
 module.exports = db;
